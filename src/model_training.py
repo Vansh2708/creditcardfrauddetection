@@ -13,10 +13,7 @@ def train_model():
 
     # Train Random Forest
     model = RandomForestClassifier(
-        n_estimators=50,
-        n_jobs=-1,
-        class_weight="balanced",
-        random_state=42
+        n_estimators=50, n_jobs=-1, class_weight="balanced", random_state=42
     )
 
     print("Training Random Forest Model...")

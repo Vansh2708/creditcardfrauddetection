@@ -1,7 +1,13 @@
+Django
 pandas
 numpy
 scikit-learn
+xgboost
+joblib
 matplotlib
 seaborn
-streamlit
-joblib
+shap
+plotly
+django-crispy-forms
+crispy-bootstrap5
+pillow
