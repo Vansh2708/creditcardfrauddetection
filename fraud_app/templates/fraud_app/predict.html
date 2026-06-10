@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction</title>
+    
+</head>
+<body>
+
+<h1>Fraud Prediction</h1>
+
+<form method="post">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">
+        Predict
+    </button>
+
+</form>
+
+{% if result %}
+
+<hr>
+
+<h2>
+Prediction:
+{{ result }}
+</h2>
+
+<h3>
+Fraud Probability:
+{{ fraud_prob }}%
+</h3>
+
+<h3>
+Risk Score:
+{{ risk_score }}/100
+</h3>
+
+{% if risk_level == "Critical" %}
+<h3 style="color:red;">
+Risk Level: {{ risk_level }}
+</h3>
+
+{% elif risk_level == "High" %}
+<h3 style="color:orange;">
+Risk Level: {{ risk_level }}
+</h3>
+
+{% elif risk_level == "Medium" %}
+<h3 style="color:blue;">
+Risk Level: {{ risk_level }}
+</h3>
+
+{% else %}
+<h3 style="color:green;">
+Risk Level: {{ risk_level }}
+</h3>
+{% endif %}
+
+
+{% endif %}
+
+</body>
+</html>
