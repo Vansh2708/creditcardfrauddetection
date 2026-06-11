@@ -1,67 +1,247 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Prediction</title>
-    
+
+    <title>Fraud Prediction</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
 </head>
+
 <body>
 
-<h1>Fraud Prediction</h1>
+<div class="container mt-4">
 
-<form method="post">
+    <!-- Header -->
+    <div class="hero">
 
-    {% csrf_token %}
+        <h1>Fraud Prediction Dashboard</h1>
 
-    {{ form.as_p }}
+        <p class="lead">
+            Analyze transactions and detect fraud using AI
+        </p>
 
-    <button type="submit">
-        Predict
-    </button>
+    </div>
 
-</form>
+    <!-- Prediction Form -->
+    <div class="card card-custom p-4">
 
-{% if result %}
+        <h3 class="text-primary mb-4">
+            Enter Transaction Details
+        </h3>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <div class="text-center mt-3">
+
+                <button
+                    type="submit"
+                    class="btn btn-primary predict-btn">
+
+                    Predict Transaction
+
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <!-- Results -->
+    {% if result %}
+
+    <div class="card card-custom mt-4 p-4">
+
+        <h2 class="text-center mb-3">
+            Prediction Result
+        </h2>
+
+        {% if result == "Fraud" %}
+
+            <div class="alert alert-danger text-center">
+                <h3>🚨 Fraud Transaction Detected</h3>
+            </div>
+
+        {% else %}
+
+            <div class="alert alert-success text-center">
+                <h3>✅ Legitimate Transaction</h3>
+            </div>
+
+        {% endif %}
+
+        <div class="row text-center mt-4">
+
+            <div class="col-md-4">
+
+                <div class="card p-3">
+
+                    <h5>Fraud Probability</h5>
+
+                    <h3 class="text-danger">
+                        {{ fraud_prob }}%
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="card p-3">
+
+                    <h5>Risk Score</h5>
+
+                    <h3 class="text-warning">
+                        {{ risk_score }}/100
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="card p-3">
+
+                    <h5>Risk Level</h5>
+
+                    {% if risk_level == "Critical" %}
+
+                        <h3 class="text-danger">
+                            {{ risk_level }}
+                        </h3>
+
+                    {% elif risk_level == "High" %}
+
+                        <h3 class="text-warning">
+                            {{ risk_level }}
+                        </h3>
+
+                    {% elif risk_level == "Medium" %}
+
+                        <h3 class="text-primary">
+                            {{ risk_level }}
+                        </h3>
+
+                    {% else %}
+
+                        <h3 class="text-success">
+                            {{ risk_level }}
+                        </h3>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Progress Bar -->
+
+        <div class="mt-4">
+
+            <h5>Risk Meter</h5>
+
+            <div class="progress" style="height:30px;">
+
+                <div
+                    class="progress-bar bg-danger"
+                    role="progressbar"
+                    style="width: {{ risk_score }}%;">
+
+                    {{ risk_score }}%
+
+                </div>
+
+            </div>
+
+        </div>
+        {% if top_features %}
 
 <hr>
 
-<h2>
-Prediction:
-{{ result }}
-</h2>
+<h4 class="mt-4 text-primary">
+    AI Explanation (SHAP)
+</h4>
 
-<h3>
-Fraud Probability:
-{{ fraud_prob }}%
-</h3>
+<p class="text-muted">
+    These features are anonymized PCA-transformed variables from the original credit card dataset.
+Higher absolute impact means stronger influence on the prediction.
+</p>
 
-<h3>
-Risk Score:
-{{ risk_score }}/100
-</h3>
+<table class="table table-striped table-bordered">
 
-{% if risk_level == "Critical" %}
-<h3 style="color:red;">
-Risk Level: {{ risk_level }}
-</h3>
+    <thead class="table-dark">
 
-{% elif risk_level == "High" %}
-<h3 style="color:orange;">
-Risk Level: {{ risk_level }}
-</h3>
+        <tr>
+            <th>Feature</th>
+            <th>Impact</th>
+        </tr>
 
-{% elif risk_level == "Medium" %}
-<h3 style="color:blue;">
-Risk Level: {{ risk_level }}
-</h3>
+    </thead>
 
-{% else %}
-<h3 style="color:green;">
-Risk Level: {{ risk_level }}
-</h3>
+    <tbody>
+
+        {% for item in top_features %}
+
+        <tr>
+
+            <td>{{ item.Feature }}</td>
+
+            <td>{{ item.Impact|floatformat:4 }}</td>
+
+        </tr>
+
+        {% endfor %}
+
+    </tbody>
+
+</table>
+
 {% endif %}
 
+    </div>
 
-{% endif %}
+    {% endif %}
+
+    <!-- Back Button -->
+
+    <div class="text-center mt-4">
+
+        <a href="/" class="btn btn-secondary">
+
+            Back To Home
+
+        </a>
+
+    </div>
+
+    <!-- Footer -->
+
+    <div class="footer mt-5">
+
+        <hr>
+
+        <p>
+            Credit Card Fraud Detection System | Django + XGBoost
+        </p>
+
+    </div>
+
+</div>
 
 </body>
+
 </html>
