@@ -34,10 +34,40 @@ def predict(request):
     if request.method=="POST":
         form=PredictionForm(request.POST)
         if form.is_valid():
-            values=[
-                form.cleaned_data[field]
-                for field in form.cleaned_data
-            ]
+            values = [
+    form.cleaned_data["Time"],
+
+    form.cleaned_data["V1"],
+    form.cleaned_data["V2"],
+    form.cleaned_data["V3"],
+    form.cleaned_data["V4"],
+    form.cleaned_data["V5"],
+    form.cleaned_data["V6"],
+    form.cleaned_data["V7"],
+    form.cleaned_data["V8"],
+    form.cleaned_data["V9"],
+    form.cleaned_data["V10"],
+    form.cleaned_data["V11"],
+    form.cleaned_data["V12"],
+    form.cleaned_data["V13"],
+    form.cleaned_data["V14"],
+    form.cleaned_data["V15"],
+    form.cleaned_data["V16"],
+    form.cleaned_data["V17"],
+    form.cleaned_data["V18"],
+    form.cleaned_data["V19"],
+    form.cleaned_data["V20"],
+    form.cleaned_data["V21"],
+    form.cleaned_data["V22"],
+    form.cleaned_data["V23"],
+    form.cleaned_data["V24"],
+    form.cleaned_data["V25"],
+    form.cleaned_data["V26"],
+    form.cleaned_data["V27"],
+    form.cleaned_data["V28"],
+
+    form.cleaned_data["Amount"]
+]
             arr=np.array(values).reshape(1,-1)
             scaled=scaler.transform(arr)
             prediction=model.predict(scaled)[0]

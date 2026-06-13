@@ -12,3 +12,5 @@ django-crispy-forms
 crispy-bootstrap5
 pillow
 reportLab
+gunicorn
+whitenoise

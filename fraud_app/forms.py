@@ -1,7 +1,7 @@
 from django import forms
 class PredictionForm(forms.Form):
     Time=forms.FloatField()
-    Amount=forms.FloatField()
+   
     V1 = forms.FloatField()
     V2 = forms.FloatField()
     V3 = forms.FloatField()
@@ -30,3 +30,4 @@ class PredictionForm(forms.Form):
     V26 = forms.FloatField()
     V27 = forms.FloatField()
     V28 = forms.FloatField()
+    Amount=forms.FloatField()
